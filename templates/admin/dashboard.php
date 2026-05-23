@@ -2,6 +2,7 @@
     <h1>Properties (<?= (int)($total ?? 0) ?>)</h1>
     <div>
         <a href="/admin/properties/add" class="btn btn-primary">Add Property</a>
+        <a href="/admin/api/sync" class="btn btn-info" onclick="return confirm('Sync properties from API? This will update existing API properties and add new ones.')">Sync from API</a>
     </div>
 </div>
 
@@ -66,7 +67,7 @@
             <?php endforeach; ?>
             <?php else: ?>
             <tr>
-                <td colspan="9" class="text-center">No properties found <a href="/admin/properties/add">Add one</a>.</td>
+                <td colspan="9" class="text-center">No properties found. <a href="/admin/properties/add">Add one</a> or <a href="/admin/api/sync">sync from API</a>.</td>
             </tr>
             <?php endif; ?>
         </tbody>

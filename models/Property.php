@@ -155,4 +155,50 @@ class Property
         $stmt->execute([':query' => '%' . $query . '%']);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+    public function upsert(array $data): void
+    {
+        $stmt = $this->db->prepare('
+            INSERT INTO properties (
+                api_uuid, county, country, town, description,
+                displayable_address, image_url, thumbnail_url,
+                latitude, longitude, num_bedrooms, num_bathrooms,
+                price, property_type, property_type_id, property_description, for_sale, source
+            ) VALUES (
+                :api_uuid, :county, :country, :town, :description,
+                :displayable_address, :image_url, :thumbnail_url,
+                :latitude, :longitude, :num_bedrooms, :num_bathrooms,
+                :price, :property_type, :property_type_id, :property_description, :for_sale, :source
+            )
+            ON DUPLICATE KEY UPDATE
+                county = VALUES(county), country = VALUES(country),
+                town = VALUES(town), description = VALUES(description),
+                displayable_address = VALUES(displayable_address),
+                image_url = VALUES(image_url), thumbnail_url = VALUES(thumbnail_url),
+                latitude = VALUES(latitude), longitude = VALUES(longitude),
+                num_bedrooms = VALUES(num_bedrooms), num_bathrooms = VALUES(num_bathrooms),
+                price = VALUES(price), property_type = VALUES(property_type),
+                property_type_id = VALUES(property_type_id), property_description = VALUES(property_description), for_sale = VALUES(for_sale)
+        ');
+
+        $stmt->execute([
+            ':api_uuid'            => $data['api_uuid'],
+            ':county'              => $data['county'] ?? null,
+            ':country'             => $data['country'] ?? null,
+            ':town'                => $data['town'] ?? null,
+            ':description'         => $data['description'] ?? null,
+            ':displayable_address' => $data['displayable_address'] ?? null,
+            ':image_url'           => $data['image_url'] ?? null,
+            ':thumbnail_url'       => $data['thumbnail_url'] ?? null,
+            ':latitude'            => $data['latitude'] ?? null,
+            ':longitude'           => $data['longitude'] ?? null,
+            ':num_bedrooms'        => $data['num_bedrooms'] ?? null,
+            ':num_bathrooms'       => $data['num_bathrooms'] ?? null,
+            ':price'               => $data['price'] ?? null,
+            ':property_type'       => $data['property_type'] ?? null,
+            ':property_type_id'    => $data['property_type_id'] ?? null,
+            ':property_description' => $data['property_description'] ?? null,
+            ':for_sale'            => $data['for_sale'] ?? 1,
+            ':source'              => 'api',
+        ]);
+    }
 }

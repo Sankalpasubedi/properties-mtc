@@ -30,6 +30,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/properties/add">Add Property</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/api/sync" onclick="return confirm('Sync properties from API?')">Sync API</a>
+                    </li>
                     <?php endif; ?>
                 </ul>
                 <ul class="navbar-nav">
