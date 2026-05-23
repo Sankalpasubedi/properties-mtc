@@ -201,4 +201,33 @@ class Property
             ':source'              => 'api',
         ]);
     }
+
+    public function searchByLocation(float $lat, float $lng, float $radiusKm = 10): array
+    {
+        $latDelta = $radiusKm / 111.32;
+        $lngDelta = $radiusKm / (111.32 * cos(deg2rad($lat)));
+
+        $stmt = $this->db->prepare(
+            'SELECT * FROM (
+                SELECT *, (6371 * ACOS(COS(RADIANS(:lat1)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(:lng1)) + SIN(RADIANS(:lat2)) * SIN(RADIANS(latitude)))) AS distance
+                FROM properties
+                WHERE latitude BETWEEN :lat_min AND :lat_max
+                AND longitude BETWEEN :lng_min AND :lng_max
+            ) AS sub
+            WHERE distance < :radius
+            ORDER BY distance
+            LIMIT 50'
+        );
+        $stmt->execute([
+            ':lat1'    => $lat,
+            ':lat2'    => $lat,
+            ':lng1'    => $lng,
+            ':lat_min' => $lat - $latDelta,
+            ':lat_max' => $lat + $latDelta,
+            ':lng_min' => $lng - $lngDelta,
+            ':lng_max' => $lng + $lngDelta,
+            ':radius'  => $radiusKm,
+        ]);
+        return $stmt->fetchAll();
+    }
 }
