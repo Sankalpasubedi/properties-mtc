@@ -9,6 +9,8 @@ if ($uri !== '/' && file_exists(__DIR__ . $uri)) {
         'css' => 'text/css',
         'js' => 'application/javascript',
         'png' => 'image/png',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
     ];
     if (isset($mimeTypes[$ext])) {
         header('Content-Type: ' . $mimeTypes[$ext]);
