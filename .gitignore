@@ -1,3 +1,5 @@
 vendor
 error_log
 config.php
+/uploads/
+.env
