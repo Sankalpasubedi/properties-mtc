@@ -21,14 +21,14 @@
                         <a class="nav-link" href="/">Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Location</a>
+                        <a class="nav-link" href="/location">Location</a>
                     </li>
                     <?php if (!empty($session['admin_logged_in'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Add Property</a>
+                        <a class="nav-link" href="/admin/properties/add">Add Property</a>
                     </li>
                     <?php endif; ?>
                 </ul>
