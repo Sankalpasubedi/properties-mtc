@@ -5,6 +5,7 @@ use Controllers\AdminController;
 use Controllers\ApiSyncController;
 use Controllers\SearchController;
 use Controllers\LocationController;
+use Middleware\AuthMiddleware;
 
 $app->get('/', [SearchController::class, 'index']);
 
@@ -28,4 +29,4 @@ $app->group('/admin', function (\Slim\Routing\RouteCollectorProxy $group) {
     $group->post('/properties/edit/{id}', [AdminController::class, 'edit']);
     $group->post('/properties/delete/{id}', [AdminController::class, 'delete']);
     $group->get('/api/sync', [ApiSyncController::class, 'sync']);
-});
+})->add(new AuthMiddleware());
