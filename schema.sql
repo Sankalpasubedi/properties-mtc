@@ -30,3 +30,5 @@ CREATE TABLE IF NOT EXISTS `properties` (
 );
 
 INSERT INTO `admin_users` (`username`, `password`) VALUES ('admin', '$2a$12$EGMjTO.D8bKOOA7jl8zsiOL6cSn8U2SBRhFdMZv8jYEit7F8LZa3.');
+
+CREATE INDEX idx_api_uuid ON properties (api_uuid);
