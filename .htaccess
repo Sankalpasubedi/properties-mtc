@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Serve existing files/directories directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect asset paths to actual locations
+RewriteRule ^assets/css/(.*)$ css/$1 [L,QSA]
+RewriteRule ^assets/js/(.*)$ js/$1 [L,QSA]
+
+# Route everything else through index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Security
+<FilesMatch "\.(env|json|lock|md)$">
+    Require all denied
+</FilesMatch>
